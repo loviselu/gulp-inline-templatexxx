@@ -10,8 +10,8 @@ use __template(filePath) to inline ejs template to js file as function     (Only
 ```html
 <!-- content.tpl -->
 <ul class="ul">
-	<% for(var i=0;i<list.length;i++) { %>
-	<li><%=list[i]%></li>
+	<% for(var i=0;i<data.list.length;i++) { %>
+	<li><%=data.list[i]%></li>
 	<% } %>
 </ul>
 ```
@@ -21,7 +21,7 @@ var a = __inline("./content.tpl")
 var b = __template("./content.tpl")
 
 //after compile:
-var a = "<ul class=\"ul\">\n\t<% for(var i=0;i<list.length;i++) { %>\n\t<li><%=list[i]%></li>\n\t<% } %>\n</ul>\n";
+var a = "<ul class=\"ul\">\n\t<% for(var i=0;i<data.list.length;i++) { %>\n\t<li><%=data.list[i]%></li>\n\t<% } %>\n</ul>\n";
 var b = function(data,escape
 /**/) {
 escape = escape || function (markup) {
