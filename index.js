@@ -2,8 +2,16 @@ var through = require('through2');
 var fs = require('fs');
 var path = require('path');
 var gutil = require('gulp-util');
+var ejs = require('ejs');
 
-var reg = /"(?:[^\\"\r\n\f]|\\[\s\S])*"|'(?:[^\\'\n\r\f]|\\[\s\S])*'|(\/\/[^\r\n\f]+|\/\*[\s\S]*?(?:\*\/|$))|\b(__inline)\s*\(\s*("(?:[^\\"\r\n\f]|\\[\s\S])*"|'(?:[^\\'\n\r\f]|\\[\s\S])*')\s*\)/g;
+var reg = /"(?:[^\\"\r\n\f]|\\[\s\S])*"|'(?:[^\\'\n\r\f]|\\[\s\S])*'|(\/\/[^\r\n\f]+|\/\*[\s\S]*?(?:\*\/|$))|\b(__inline|__template)\s*\(\s*("(?:[^\\"\r\n\f]|\\[\s\S])*"|'(?:[^\\'\n\r\f]|\\[\s\S])*')\s*\)/g;
+
+var ejsConfig = {
+    client:true,
+    debug:false,
+    _with:false,
+    compileDebug:false
+}
 
 module.exports = function (options) {
     return through.obj(function (file, enc, cb) {
@@ -24,7 +32,7 @@ module.exports = function (options) {
         // 然后将处理后的字符串，再转成Buffer形式
         var content = file.contents.toString();
         content = content.replace(reg, function(m, comment, type, value){
-            if(type === '__inline'){
+            if(type){
                 // console.log(type,value)
                 // console.log(file.path)
                 var filePath = path.resolve(path.dirname(file.path),value.replace(/['"]/g,''))
@@ -33,7 +41,14 @@ module.exports = function (options) {
                     filePath += '.tpl'
                 }
                 if(fs.existsSync(filePath)){
-                    return JSON.stringify(fs.readFileSync(filePath).toString()) 
+                    switch(type){
+                        case '__inline':
+                            return JSON.stringify(fs.readFileSync(filePath).toString()) 
+                            break;
+                        case '__template':
+                            return ejs.compile(fs.readFileSync(filePath).toString(),ejsConfig).toString().replace('function anonymous(locals, escape, include, rethrow','function(data,escape');
+                            break;
+                    }
                 }else{
                     return m;
                 }
@@ -41,6 +56,7 @@ module.exports = function (options) {
                 return m;
             }
         });
+        
         file.contents = new Buffer(content);
 
         this.push(file);
