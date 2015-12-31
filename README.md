@@ -3,6 +3,7 @@ Inline template into js file as string or function.
 
 # Usage
 use __inline(filePath) to inline template to js file as string             (Only relative path support);
+
 use __template(filePath) to inline ejs template to js file as function     (Only relative path support);
 
 # Example
