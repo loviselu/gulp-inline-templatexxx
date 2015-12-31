@@ -1,0 +1,27 @@
+{
+  "name": "gulp-inline-string",
+  "version": "1.0.0",
+  "description": "Inline file content into js file as string.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loviselu/gulp-inline-string.git"
+  },
+  "keywords": [
+    "gulp",
+    "inline"
+  ],
+  "author": "loviselu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loviselu/gulp-inline-string/issues"
+  },
+  "homepage": "https://github.com/loviselu/gulp-inline-string#readme",
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "through2": "^2.0.0"
+  }
+}
