@@ -1,6 +1,6 @@
 {
   "name": "gulp-inline-template",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Inline template into js file as string or function.",
   "main": "index.js",
   "scripts": {
