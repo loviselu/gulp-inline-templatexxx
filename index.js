@@ -47,7 +47,7 @@ module.exports = function (options) {
                             break;
                         case '__template':
                             return ejs.compile(fs.readFileSync(filePath).toString().replace(/\r\n/g,'\n'),ejsConfig).toString().replace(/function anonymous\(locals, escape(Fn)*, include, rethrow/
-,'function(data,escape');
+,'function(data,escape$1');
                             break;
                     }
                 }else{
